@@ -45,10 +45,12 @@ pip install -r requirements.txt
 ### 5. Create `.env` File
 Create a file named `.env` in the project folder:
 ```env
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/?appName=Cluster0
+MONGO_URI=<your_mongodb_connection_string>
 MONGO_DB=resume_classifier
 MONGO_COLLECTION=candidates
 ```
+
+Replace `<your_mongodb_connection_string>` with your actual MongoDB Atlas connection string from the MongoDB Dashboard.
 
 ### 6. Run Locally
 ```bash
