@@ -762,7 +762,7 @@ def apply_custom_styling():
     }
     
     .header-container h1 {
-        font-size: 3.2em;
+        font-size: clamp(1.8em, 5vw, 3.2em);
         color: #ffffff;
         margin-bottom: 15px;
         font-weight: 700;
@@ -771,7 +771,7 @@ def apply_custom_styling():
     }
     
     .header-container p {
-        font-size: 1.2em;
+        font-size: clamp(1em, 3vw, 1.2em);
         color: #cbd5e1;
         font-weight: 400;
         letter-spacing: 0.5px;
@@ -813,11 +813,12 @@ def apply_custom_styling():
         color: white;
         font-weight: 700;
         border: none;
-        font-size: 1.2em;
+        font-size: clamp(0.9em, 2vw, 1.2em);
         transition: all 0.3s ease;
         box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         text-transform: uppercase;
         letter-spacing: 1px;
+        padding: clamp(8px, 2vw, 16px) clamp(16px, 3vw, 24px);
     }
     
     .stButton>button:hover {
@@ -830,7 +831,7 @@ def apply_custom_styling():
     }
     
     .prediction-box {
-        padding: 40px;
+        padding: clamp(20px, 5vw, 40px);
         border-radius: 1.5rem;
         margin-bottom: 30px;
         text-align: center;
@@ -893,13 +894,13 @@ def apply_custom_styling():
         background: rgba(15, 23, 42, 0.7);
         border: 1px solid rgba(148, 163, 184, 0.1);
         border-radius: 1rem;
-        padding: 24px;
+        padding: clamp(16px, 4vw, 24px);
         backdrop-filter: blur(16px);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
     
     .info-card-title {
-        font-size: 0.75em;
+        font-size: clamp(0.65em, 1.5vw, 0.75em);
         text-transform: uppercase;
         letter-spacing: 0.1em;
         color: #94a3b8;
@@ -1004,13 +1005,100 @@ def apply_custom_styling():
         border-radius: 8px !important;
     }
     
-    /* ===== Responsive ===== */
+    /* ===== Responsive Design ===== */
     @media (max-width: 768px) {
-        .header-container h1 {
-            font-size: 2em;
+        body, .main, .stApp, [data-testid="stAppViewContainer"] {
+            background-attachment: fixed;
         }
+        
+        .header-container {
+            margin-bottom: 20px;
+            padding: 0 12px;
+        }
+        
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 2px;
+            padding: 6px;
+        }
+        
+        .stTabs [data-baseweb="tab"] {
+            padding: 8px 12px !important;
+            font-size: 0.85em !important;
+        }
+        
+        .prediction-box {
+            margin-bottom: 20px;
+        }
+        
+        .skill-tag {
+            padding: 6px 12px;
+            margin: 4px;
+            font-size: 0.8em;
+        }
+        
+        .badge {
+            padding: 4px 12px;
+            font-size: 0.8em;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .header-container {
+            margin-bottom: 15px;
+            padding: 0 8px;
+        }
+        
+        .header-container h1 {
+            margin-bottom: 8px;
+        }
+        
         .stButton>button {
-            font-size: 1em;
+            height: 3em;
+            margin: 8px 0;
+        }
+        
+        .info-card {
+            padding: clamp(12px, 3vw, 16px);
+        }
+        
+        .process-step {
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            font-size: 0.9em;
+        }
+        
+        .prediction-box {
+            padding: 15px;
+        }
+        
+        .stTabs [data-baseweb="tab"] {
+            padding: 6px 10px !important;
+            font-size: 0.75em !important;
+        }
+        
+        .confidence-bar-container {
+            margin-top: 12px;
+        }
+        
+        .skill-tag {
+            padding: 4px 8px;
+            margin: 2px;
+            font-size: 0.75em;
+        }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .header-container h1 {
+            font-size: 2.5em;
+        }
+        
+        .header-container p {
+            font-size: 1.1em;
         }
     }
     

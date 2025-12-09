@@ -12,7 +12,7 @@ A simple tool to classify resumes and rank candidates based on job requirements.
 
 ## What You Need
 
-- Python 3.10 or higher
+- Python 3.11 or higher
 - MongoDB account (it's free)
 - A few Python packages (we'll install them)
 
