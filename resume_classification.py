@@ -1038,6 +1038,11 @@ def apply_custom_styling():
         padding-left: clamp(4px, 1vw, 8px);
     }
     
+    /* Ensure proper gap between stat card columns */
+    [data-testid="stHorizontalBlock"] {
+        gap: clamp(8px, 2vw, 16px) !important;
+    }
+    
     /* ===== Responsive Design ===== */
     @media (max-width: 768px) {
         body, .main, .stApp, [data-testid="stAppViewContainer"] {
@@ -1061,6 +1066,11 @@ def apply_custom_styling():
         
         .prediction-box {
             margin-bottom: 20px;
+        }
+        
+        [data-testid="column"] {
+            gap: 12px;
+            padding: 0 6px !important;
         }
         
         .skill-tag {
@@ -1214,7 +1224,7 @@ def main():
         with cols[i]:
             st.markdown(f"""
             <div style="background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); 
-                        border: 2px solid #7dd3fc; border-radius: 12px; padding: clamp(12px, 3vw, 20px) clamp(8px, 2vw, 12px); text-align: center; min-height: 160px; display: flex; flex-direction: column; justify-content: center; gap: clamp(8px, 2vw, 12px); transition: all 0.3s ease;">
+                        border: 2px solid #7dd3fc; border-radius: 12px; padding: clamp(12px, 3vw, 20px) clamp(8px, 2vw, 12px); text-align: center; min-height: 160px; display: flex; flex-direction: column; justify-content: center; gap: clamp(8px, 2vw, 12px); transition: all 0.3s ease; margin: 0 clamp(4px, 1.5vw, 8px);">
                 <div style="font-size: clamp(1.4em, 4vw, 1.8em); margin: 0;">{emoji}</div>
                 <div style="font-size: clamp(0.6em, 1.2vw, 0.7em); color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; line-height: 1.3; word-wrap: break-word; word-break: break-word; margin: 0;">{role}</div>
                 <div style="font-size: clamp(1.6em, 3.5vw, 2.2em); font-weight: 700; color: #7dd3fc; margin: 0;">{count}</div>
