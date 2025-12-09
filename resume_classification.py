@@ -1005,6 +1005,33 @@ def apply_custom_styling():
         border-radius: 8px !important;
     }
     
+    /* ===== Result Cards ===== */
+    .result-card {
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        border-radius: 0.75rem;
+        padding: clamp(16px, 3vw, 20px);
+        backdrop-filter: blur(10px);
+        text-align: center;
+    }
+    
+    .result-label {
+        font-size: clamp(0.65em, 1.5vw, 0.75em);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #94a3b8;
+        margin-bottom: 8px;
+        display: block;
+    }
+    
+    .result-value {
+        font-size: clamp(1em, 2.5vw, 1.3em);
+        font-weight: 600;
+        color: #ffffff;
+        display: block;
+        word-break: break-word;
+    }
+    
     /* ===== Responsive Design ===== */
     @media (max-width: 768px) {
         body, .main, .stApp, [data-testid="stAppViewContainer"] {
@@ -1039,6 +1066,11 @@ def apply_custom_styling():
         .badge {
             padding: 4px 12px;
             font-size: 0.8em;
+        }
+        
+        .result-card {
+            padding: 12px;
+            margin-bottom: 8px;
         }
     }
     
@@ -1089,6 +1121,20 @@ def apply_custom_styling():
             padding: 4px 8px;
             margin: 2px;
             font-size: 0.75em;
+        }
+        
+        .result-card {
+            padding: 10px;
+            margin-bottom: 6px;
+        }
+        
+        .result-label {
+            font-size: 0.65em;
+            margin-bottom: 4px;
+        }
+        
+        .result-value {
+            font-size: 0.95em;
         }
     }
     
@@ -1299,26 +1345,23 @@ def main():
     with tab2:
         st.markdown("## Rank Candidates for Job Description")
 
-        col_jd, col_settings = st.columns([2, 1])
+        # Responsive layout for job description input and settings
+        jd_text = st.text_area(
+            "Paste job description",
+            height=280,
+            placeholder="Paste job description here...",
+            label_visibility="collapsed"
+        )
         
-        with col_jd:
-            jd_text = st.text_area(
-                "Job description",
-                height=280,
-                placeholder="Paste job description here...",
-                label_visibility="collapsed"
-            )
-
-        with col_settings:
-            st.markdown("**Settings**")
-            top_k = st.number_input(
-                "Number of candidates",
-                min_value=5,
-                max_value=30,
-                value=10,
-                step=1,
-                label_visibility="collapsed"
-            )
+        st.markdown("**Settings**")
+        top_k = st.number_input(
+            "Number of candidates",
+            min_value=5,
+            max_value=30,
+            value=10,
+            step=1,
+            label_visibility="collapsed"
+        )
 
         if st.button("🔍 Rank", key="btn_rank", use_container_width=True, type="primary"):
             if not jd_text or not jd_text.strip():
@@ -1330,10 +1373,10 @@ def main():
                     st.divider()
                     st.markdown("### Job Analysis")
                     
-                    # JD Analysis
-                    jd_col1, jd_col2, jd_col3 = st.columns(3)
+                    # JD Analysis - Responsive cards
+                    jd_cols = st.columns([1, 1, 1])
                     
-                    with jd_col1:
+                    with jd_cols[0]:
                         st.markdown(f"""
                         <div class="result-card">
                             <div class="result-label">Role</div>
@@ -1341,7 +1384,7 @@ def main():
                         </div>
                         """, unsafe_allow_html=True)
                     
-                    with jd_col2:
+                    with jd_cols[1]:
                         exp_range = f"{jd_info['min_experience'] or 0}–{jd_info['max_experience'] or 'N/A'} yrs"
                         st.markdown(f"""
                         <div class="result-card">
@@ -1350,7 +1393,7 @@ def main():
                         </div>
                         """, unsafe_allow_html=True)
                     
-                    with jd_col3:
+                    with jd_cols[2]:
                         skills_count = len(jd_info['skills'])
                         st.markdown(f"""
                         <div class="result-card">
@@ -1368,28 +1411,32 @@ def main():
                     st.divider()
                     st.markdown(f"### Top {top_k} Candidates")
                     
-                    # Results as professional cards
+                    # Results as professional responsive cards
                     for idx, row in results_df.iterrows():
                         match_pct = f"{row['final_score']:.0%}"
                         
                         st.markdown(f"""
                         <div class="prediction-box" style="border-left: 5px solid #3b82f6;">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 20px; align-items: center;">
-                                <div>
-                                    <div style="font-size: 0.85em; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Name</div>
-                                    <div style="font-size: 1.1em; font-weight: 600; color: #ffffff;">{row['name']}</div>
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                                    <div>
+                                        <div style="font-size: clamp(0.75em, 1.5vw, 0.85em); color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Name</div>
+                                        <div style="font-size: clamp(0.95em, 2vw, 1.1em); font-weight: 600; color: #ffffff; word-break: break-word;">{row['name']}</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: clamp(0.75em, 1.5vw, 0.85em); color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Contact</div>
+                                        <div style="font-size: clamp(0.8em, 1.8vw, 0.95em); color: #cbd5e1; word-break: break-all;">{row['email']}<br><small>{row['phone']}</small></div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: clamp(0.75em, 1.5vw, 0.85em); color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Role</div>
+                                        <div style="font-size: clamp(0.9em, 1.8vw, 1em); color: #7dd3fc; font-weight: 600;">{row['predicted_role']}</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div style="font-size: 0.85em; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Contact</div>
-                                    <div style="font-size: 0.95em; color: #cbd5e1;">{row['email']}<br>{row['phone']}</div>
-                                </div>
-                                <div>
-                                    <div style="font-size: 0.85em; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Role</div>
-                                    <div style="font-size: 1em; color: #7dd3fc; font-weight: 600;">{row['predicted_role']}</div>
-                                </div>
-                                <div style="text-align: right;">
-                                    <div style="font-size: 0.85em; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Match</div>
-                                    <div style="font-size: 2em; font-weight: 700; color: #3b82f6;">{match_pct}</div>
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 12px; padding-top: 12px; border-top: 1px solid rgba(148, 163, 184, 0.1);">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: clamp(0.75em, 1.5vw, 0.85em); color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Match Score</div>
+                                        <div style="font-size: clamp(1.6em, 4vw, 2em); font-weight: 700; color: #3b82f6;">{match_pct}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
