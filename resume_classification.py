@@ -1032,6 +1032,12 @@ def apply_custom_styling():
         word-break: break-word;
     }
     
+    /* ===== Stats Cards ===== */
+    [data-testid="column"] {
+        padding-right: clamp(4px, 1vw, 8px);
+        padding-left: clamp(4px, 1vw, 8px);
+    }
+    
     /* ===== Responsive Design ===== */
     @media (max-width: 768px) {
         body, .main, .stApp, [data-testid="stAppViewContainer"] {
@@ -1183,7 +1189,7 @@ def main():
     # Enhanced Stats Section
     st.markdown("""
     <div style="margin-bottom: 30px;">
-        <h3 style="color: #ffffff; margin-bottom: 20px; font-size: 1.3em;">Candidate Pool Overview</h3>
+        <h3 style="color: #ffffff; margin-bottom: 20px; font-size: clamp(1.1em, 2.5vw, 1.3em);">Candidate Pool Overview</h3>
     </div>
     """, unsafe_allow_html=True)
     
@@ -1199,7 +1205,7 @@ def main():
     
     role_counts = df["predicted_role"].value_counts() if len(df) > 0 else {}
     
-    # Role Stats Cards - All 5 categories with equal sizing
+    # Role Stats Cards - All 5 categories with equal sizing and responsive spacing
     cols = [col1, col2, col3, col4, col5]
     
     for i, (role, count) in enumerate(list(role_counts.items())[:5]):
@@ -1208,10 +1214,10 @@ def main():
         with cols[i]:
             st.markdown(f"""
             <div style="background: linear-gradient(135deg, rgba(125, 211, 252, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); 
-                        border: 2px solid #7dd3fc; border-radius: 12px; padding: 20px 12px; text-align: center; min-height: 160px; display: flex; flex-direction: column; justify-content: center; transition: all 0.3s ease;">
-                <div style="font-size: 1.8em; margin-bottom: 12px;">{emoji}</div>
-                <div style="font-size: 0.7em; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; font-weight: 600; line-height: 1.2; word-wrap: break-word; word-break: break-word;">{role}</div>
-                <div style="font-size: 2.2em; font-weight: 700; color: #7dd3fc;">{count}</div>
+                        border: 2px solid #7dd3fc; border-radius: 12px; padding: clamp(12px, 3vw, 20px) clamp(8px, 2vw, 12px); text-align: center; min-height: 160px; display: flex; flex-direction: column; justify-content: center; gap: clamp(8px, 2vw, 12px); transition: all 0.3s ease;">
+                <div style="font-size: clamp(1.4em, 4vw, 1.8em); margin: 0;">{emoji}</div>
+                <div style="font-size: clamp(0.6em, 1.2vw, 0.7em); color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; line-height: 1.3; word-wrap: break-word; word-break: break-word; margin: 0;">{role}</div>
+                <div style="font-size: clamp(1.6em, 3.5vw, 2.2em); font-weight: 700; color: #7dd3fc; margin: 0;">{count}</div>
             </div>
             """, unsafe_allow_html=True)
 
